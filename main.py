@@ -21,7 +21,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'shiwamsudhanshu1234@gmail.com'
-app.config['MAIL_PASSWORD'] = 'fnfcnvitwtydfqdk'
+app.config['MAIL_PASSWORD'] = 'abcdefghijk'
 mail = Mail(app)
 
 
@@ -127,14 +127,14 @@ def register_patient_route():
             )
             
             msg.body  = f'''Hello {username},
+            
+We are pleased to inform you that your account has been successfully created on the HMS Portal.
 
-We are pleased to inform you that you have been shortlisted for the Summer Internship Program at IIT Patna.
+You can now log in using your registered credentials to access the system. Through your account, you will be able to manage appointments, view important updates, and use the services provided on the platform.
 
-This opportunity reflects your skills and potential, and we’re excited to have you move forward in the selection process. The internship comes with a stipend of ₹30,000.
+If you face any issues while logging in or using the portal, please feel free to contact the support team.
 
-Further details regarding the next steps will be shared with you soon.
-
-Congratulations and best wishes!'''
+Welcome to the HMS Portal!'''
             mail.send(msg)
 
             flash("Patient_registered successfully")
