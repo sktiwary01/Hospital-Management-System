@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            display: flex;
+            font-family: 'Poppins', sans-serif;
+            background: #9bbcff;
+        }
+
+        .sidebar {
+            width: 200px;
+            height: 100vh;
+            background: #1E3A8A;
+            color: white;
+            padding: 20px;
+
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            margin: 10px 0;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar a[href="/logout"]:hover {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff4d4d;
+        }
+
+        .main {
+            flex: 1;
+            padding: 20px;
+            margin-left: 240px;
+        }
+
+
+        .welcome-card {
+            background: linear-gradient(135deg, #3B82F6, #1E3A8A);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .stat-box h3 {
+            margin: 0;
+            font-size: 26px;
+            color: #1E3A8A;
+        }
+
+        .stat-box p {
+            margin-top: 5px;
+            color: #555;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+        }
+
+
+        .table-section {
+            margin-top: 30px;
+        }
+
+        .table-section h3 {
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #1E3A8A;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f3f4f6;
+        }
+
+        #flash-message {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .status-confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <script>
+        setTimeout(function () {
+            var flash = document.getElementById("flash-message");
+            if (flash) {
+                flash.style.display = "none";
+            }
+        }, 3000);
+    </script>
+
+
+    <div class="sidebar">
+        <h2 style="color: aqua;">Dashboard</h2>
+        <a href="/homepage">Homepage</a>
+        <a href="/book">Book Slot</a>
+        <a href='/my_reports'>Reports</a>
+        <a href="/logout">Logout</a>
+
+
+    </div>
+
+    <div class="main">
+        <div class="welcome-card">
+
+
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div id="flash-message"
+                style="margin-top:15px; width: 300px; height: auto; text-align: center;  padding:10px; background: #19eb97; color:#ffffff; border-radius:6px;">
+                {% for msg in messages %}
+                <div>{{ msg }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+
+
+            <h2>Hello, {{ user.username }} 👋</h2>
+            <p>Age: {{ user.age or "Not set" }}</p>
+            <p>Role: {{ user.role }}</p>
+        </div>
+
+        <div class="stats">
+
+
+
+
+
+            <div class="stat-box">
+                <h3>{{ upcoming_count }}</h3>
+                <p>Upcoming <br> Appointments</p>
+            </div>
+
+
+            <div class="stat-box">
+                <h3>{{ appointment_count }}</h3>
+                <p>Total <br> Appointments</p>
+            </div>
+
+
+            <div class="stat-box">
+                <h3>{{ report_count }}</h3>
+                <p>Reports</p>
+            </div>
+
+        </div>
+
+        <div class="table-section">
+            <h3>Upcoming Appointments</h3>
+
+            <table>
+                <tr>
+                    <th>Doctor</th>
+                    <th>Date & Time</th>
+                    <th>Status</th>
+                </tr>
+
+                <tbody>
+                    {% if appointments %}
+                    {% for appt, doctor in appointments %}
+
+                    <tr>
+                        <td>Dr. {{ doctor.username }}</td>
+                        <td>{{ appt.date }} ({{ appt.time }})</td>
+                        <td>
+                            <span class="status 
+        {% if appt.status.lower() == 'confirmed' %}status-confirmed
+        {% elif appt.status.lower() == 'pending' %}status-pending
+        {% elif appt.status.lower() == 'rejected' %}status-rejected
+        {% endif %}">
+                                {{ appt.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align:center;">No appointments found</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>

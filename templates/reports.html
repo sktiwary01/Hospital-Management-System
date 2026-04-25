@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your Reports</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #000000;
+            padding: 40px;
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url("static/img/report_bg.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+        }
+
+        body {
+
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin: 0;
+            color: #1E3A8A;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            padding: 8px 14px;
+            background: #e0e7ff;
+            color: #1E3A8A;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #c7d2fe;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+        }
+
+        th {
+            background: #1E3A8A;
+            color: white;
+        }
+
+        tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f1f5ff;
+        }
+
+        .download-btn {
+            padding: 8px 14px;
+            background: linear-gradient(135deg, #3B82F6, #1E3A8A);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .empty {
+            text-align: center;
+            padding: 20px;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="card">
+
+            <div class="header">
+                <h2>Your Reports</h2>
+                <a href="/patient_dashboard" class="back-btn">← Back to Dashboard</a>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Report Name</th>
+                    <th>Download</th>
+                </tr>
+
+                {% if reports %}
+                {% for r in reports %}
+                <tr>
+                    <td>{{ r.filename }}</td>
+                    <td>
+                        <a href="/{{ r.filepath }}" download class="download-btn">
+                            Download
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="2" class="empty">No reports available</td>
+                </tr>
+                {% endif %}
+            </table>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

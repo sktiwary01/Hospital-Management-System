@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .left {
+            display: flex;
+            align-items: center;
+            margin-left: -20px;
+
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+
+        body {
+            height: 100vh;
+            margin: 0;
+
+            background-image: url("/static/img/26087.jpg");
+            background-color: #1E3A8A;
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            background-blend-mode: lighten;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 30px 30px;
+            background: #1c9cf7;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+
+
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 40px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+            text-shadow: #ccc;
+        }
+
+        .form_box {
+            width: 500px;
+            padding: 30px;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            margin: auto;
+            margin-top: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        #flash-message {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .flash-container {
+            margin-top: 15px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            color: white;
+        }
+
+        .flash-error {
+            background-color: red;
+        }
+
+        .flash-success {
+            background-color: #19eb97;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class=" navbar">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+
+        <div id="flash-message" class="flash-container">
+
+            {% for category, msg in messages %}
+            <div class="flash-message {{ 'flash-error' if category == 'error' else 'flash-success' }}">
+                {{ msg }}
+            </div>
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+        {% endwith %}
+
+        <div class=left style="color: white; text-shadow: #9c9c9c; font-size: 30px;">
+            <a href="/logo"><img src="static\img\logo.jpg" class="logo" alt="#"></a>
+
+            <div class="text">
+                <em style="margin-left: 20px;">HMS Portal</em>
+                <p style="font-size: 12px; margin-top: 0%; margin-left: 20px;">One Shot Solution- MediCare</p>
+            </div>
+
+        </div>
+
+        <div class='right' style="margin-top: 20px; font-size: 17px;">
+
+            <a href="/about_us">About_Us</a>
+            <a href="/services">Services</a>
+            <a href="/notification">Notifications</a>
+            <a href="/help">Help</a>
+
+        </div>
+
+    </div>
+
+
+    <div style="
+    width: 520px;
+    padding: 55px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    text-align: center;
+">
+
+        <form method="post">
+            <h2 style="margin-bottom:20px; color:#1E3A8A;">Login/Signup</h2>
+
+            <input type="text" name="username" placeholder="enter username" required
+                style="width:90%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:6px;">
+
+            <input type="password" name="password" placeholder="enter password" required
+                style="width:90%; padding:10px; margin-bottom:15px; border:1px solid #ccc; border-radius:6px;">
+
+            <button type="submit"
+                style="width:90%; padding:10px; background:#1E3A8A; color:white; border:none; border-radius:6px;">
+                Login
+            </button>
+
+            <h3 style="margin:12px 0; color:red;">{{ message }}</h3>
+
+            <div style="
+            width:90%;
+            margin: 10px auto 0 auto;
+            text-align:left;
+
+            
+        ">
+
+                <a href="/register_patient"
+                    style="display:block; color:#1E3A8A; text-decoration:none; margin-bottom:6px; justify-content: center; text-align: center;">
+                    Register as Patient
+                </a>
+
+                <a href="/register_doctor"
+                    style="display:block; color:#1E3A8A; text-decoration:none; justify-content: center; text-align: center;">
+                    Register as Doctor
+                </a>
+
+            </div>
+
+        </form>
+
+        <script>
+            setTimeout(function () {
+                var flash = document.getElementById("flash-message");
+                if (flash) {
+                    flash.style.display = "none";
+                }
+            }, 3000);
+        </script>
+
+    </div>
+
+
+
+
+
+</body>
+
+</html>

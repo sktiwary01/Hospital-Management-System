@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Appointments</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #97baff;
+
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        h2 {
+            color: #1E3A8A;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #1E3A8A;
+            color: white;
+        }
+
+        tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .badge {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 28px;
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+        }
+
+        .pending {
+            background: orange;
+        }
+
+        .confirmed {
+            background: green;
+        }
+
+        .cancelled {
+            background: red;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            background: #1E3A8A;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <a class="back" href="/admin_dashboard">← Back to Dashboard</a>
+
+        <h2>All Appointments 📅</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for appointment, patient, doctor in appointments %}
+                <tr>
+                    <td>{{ patient.username }}</td>
+                    <td>{{ doctor.username }}</td>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.time }}</td>
+                    <td>
+                        {% if appointment.status == 'pending' %}
+                        <span class="badge pending">{{ appointment.status }}</span>
+
+                        {% elif appointment.status == 'confirmed' %}
+                        <span class="badge confirmed">{{ appointment.status }}</span>
+
+                        {% else %}
+                        <span class="badge cancelled">{{ appointment.status }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+</body>
+
+</html>
