@@ -523,7 +523,12 @@ with app.app_context():
     
 
 
-
+@app.route('/reset-db')
+def reset_db():
+    from main import db
+    db.drop_all()
+    db.create_all()
+    return "Database cleared"
 
 
 
